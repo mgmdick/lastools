@@ -1,0 +1,102 @@
+---
+title: "Background"
+author: "Matthew Dick & Kane Maxwell"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: false
+    toc_depth: 5
+bibliography: lastools.bib
+  
+vignette: >
+  %\VignetteIndexEntry{Background}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## About lastools
+
+'lastools' is an R package for reading and writing [version 1.2](http://www.cwls.org/wp-content/uploads/2014/09/LAS12_Standards.txt) and [version 2.0](http://www.cwls.org/wp-content/uploads/2017/02/Las2_Update_Feb2017.pdf) Log ASCII Standard (LAS) files (@las_spec_v1, @las_spec_v2) and for performing common functions on LAS files including:
+
+* version conversion
+
+* depth conversion
+
+* merging
+
+* visualizing/plotting
+
+* re-sampling/filtering 
+
+* bulk loading to R data.table
+
+
+Although there are existing software which provide similar functionality (@las_cws_front_page, @lasio), at time of writing no R package existed for reading/writing and manipulating LAS files. The aim of lastools is to provide this functionality in the R environment and to provide additional unique functionality not found in existing alternative packages/libraries/software. 
+
+## LAS Data 
+
+### Las file
+
+A LAS file is a standardized, structured ASCII file containing header information and log curve data derived from the continuous collection of (usually geophysical) measurements from a borehole or well (@reeves). They are often termed wireline log LAS files and have the file extension ".las". They are _distinct_ from 'lidar' LAS files which are  'industry-standard binary format files for storing [airborne lidar data](http://desktop.arcgis.com/en/arcmap/10.3/manage-data/las-dataset/what-is-a-las-dataset-.htm). 
+
+The LAS standard was introduced by the Canadian Well Logging Society in 1989 and to date consists of 3 Versions (version 1.2 (1989), 2.0 (1992) & 3.0 (1999)) (@las_preamble). Version 2.0 replaced inconsistencies in version 1.2 while version 3.0 clarified some of the poorly defined specifications of LAS 2.0 and provides expanded data storage capabilities (@las_spec_v1, @las_spec_v2, @las_spec_v3). Despite version 3.0 being the 'latest' version, its implementation and usage has been extremely limited (@las_preamble). Following this, the package lastools only provides support for LAS file versions 1.2 & 2.0.  
+
+The exact standards and structure/s for each LAS file type can be accessed via the below links (and/or from the embedded hyperlinks elsewhere):
+
+[Las Standard 1.2](http://www.cwls.org/wp-content/uploads/2014/09/LAS12_Standards.txt)
+
+[Las Standard 2.0](http://www.cwls.org/wp-content/uploads/2017/02/Las2_Update_Feb2017.pdf)
+
+[Las Standard 3.0](http://www.cwls.org/wp-content/uploads/2014/09/LAS_3_File_Structure.pdf)
+
+### Data aquisition
+
+The process of collecting the information stored in a LAS file is often termed 'wireline' or 'slimline' logging. This is because  a tool (termed a sonde) (for measuring responses) is usually sent down a well/borehole by steel cable (wireline) which enables electrical signals to be brought to the surface through one or more conducting wires (@reeves). The electrical signals (usually in count rate/voltages) brought to surface are recorded by computer and processed. Processing typically involves merging multiple signal responses with depth, normalising responses with calibration procedures and converting responses into engineering units (e.g grams/cc) (@reeves). This data is then formatted into LAS standard format or alternative formats at request. Finally the data is typically visualized as curve/s (with depth on the y-axis).
+
+As example, below plots the depth (y-axis) against the repose data (x-axis) using the example LAS 'object' from the lastools data sets. 
+
+
+```{r, echo=TRUE, results='asis',fig.width=8, fig.height=6,fig.align="center", message=FALSE, warning=FALSE}
+
+library(lastools)
+lastools::las_plot(lastools::example_las_obj)
+
+```
+
+### Purpose/application
+
+The data is typically used to characterize rock properties and has been used extensively to support the size and quantity of oil, gas, water and coal resources (@reeves). "The reasons given for running logs invariably include one or more of the following (@reeves):
+
+* depth to lithological boundaries
+
+* lithology identification
+
+* minerals grade/quality
+
+* inter borehole correlation
+
+* structure mapping
+
+* dip determination
+
+* rock strength
+
+* in situ stress orientation
+
+* fracture frequency
+
+* porosity
+
+* fluid salinity"
+
+### Measurements
+
+Most common measurements (which are stored in a LAS file) comprise of: nuclear (e.g gamma ray, spectral gamma, gamma density), acoustic (e.g velocity) and electronic (e.g spontaneous potential, resistivity). In addition, borehole geometry measurements such as the axis in three dimensions (verticality) and borehole diameter (especially needed for correction algorithms) may be recorded. 
+
+@reeves provides comprehensive documentation these measurments and their application. 
+
+
+# References
+
+
